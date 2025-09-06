@@ -1,0 +1,910 @@
+{
+  "name": "Email Scraping Automation By Alber Org",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        -320
+      ],
+      "id": "0f64bd10-f9c6-4847-bcc3-dbc96c1f1b92",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "returnAll": true,
+        "simple": false,
+        "filters": {
+          "labelIds": [
+            "INBOX"
+          ],
+          "readStatus": "both"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -288,
+        -320
+      ],
+      "id": "94e55fe6-4b16-4298-a524-42a1a8f6303c",
+      "name": "Get many messages",
+      "webhookId": "aa0a1f1d-93b4-4979-a847-668958ed29e4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "H8vXzEjTaoz9A0uT",
+          "name": "chris@takeofftachnology.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1hpPDSyqntEFos2myMmdWyue65rl0LCGobYoDO4YtCTA",
+          "mode": "list",
+          "cachedResultName": "get all email data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hpPDSyqntEFos2myMmdWyue65rl0LCGobYoDO4YtCTA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hpPDSyqntEFos2myMmdWyue65rl0LCGobYoDO4YtCTA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $json.id }}",
+            "threadId": "={{ $json.threadId }}",
+            "labels": "={{ $json.labelIds }}",
+            "To": "={{ $json.to.value[0].address }}",
+            "subject": "={{ $json.subject }}",
+            "msg body": "={{ $json.text }}",
+            "from": "={{ $json.from.value[0].address }}",
+            "needsSummarization": "={{ $json.needsSummarization }}",
+            "originalTextLength": "={{ $json.originalTextLength }}",
+            "summarized": "={{ $json['summarized body'] }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "threadId",
+              "displayName": "threadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "from",
+              "displayName": "from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "labels",
+              "displayName": "labels",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "msg body",
+              "displayName": "msg body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "To",
+              "displayName": "To",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "originalTextLength",
+              "displayName": "originalTextLength",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "needsSummarization",
+              "displayName": "needsSummarization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "summarized",
+              "displayName": "summarized",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "useAppend": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1232,
+        -416
+      ],
+      "id": "6cd22a34-becd-490b-b99f-0ed1d7cfcba2",
+      "name": "Add to get all email data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6ZOE2gbAbh0xja4q",
+          "name": "chris@takeofftachnology.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "threadId",
+              "field2": "threadId"
+            }
+          ]
+        },
+        "joinMode": "keepEverything",
+        "options": {
+          "multipleMatches": "all"
+        }
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1456,
+        -320
+      ],
+      "id": "8be87091-7a62-4608-be41-7a5f1ca3362e",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1eDrnXe4GsH5y3JR9ehlkeQOQSW3k-j5Js--hiJ9RbRE",
+          "mode": "list",
+          "cachedResultName": "US Email Data All Mail",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eDrnXe4GsH5y3JR9ehlkeQOQSW3k-j5Js--hiJ9RbRE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eDrnXe4GsH5y3JR9ehlkeQOQSW3k-j5Js--hiJ9RbRE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "date": "={{ $json.firstmsgdate }} // {{ $json.lastmsgdate }}",
+            "id": "={{ $json.id }}",
+            "threadId": "={{ $json.threadId }}",
+            "labels": "={{ $json.labels }}",
+            "Subject": "={{ $json.subject }}",
+            "From": "={{ $json.from }}",
+            "To": "={{ $json.To }}",
+            "msg body": "={{ $json['msg body'] }}",
+            "thread msges combined": "={{ $json.text }}",
+            "character count": "={{ $json.originalTextLength }}"
+          },
+          "matchingColumns": [
+            "from"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "threadId",
+              "displayName": "threadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "msg body",
+              "displayName": "msg body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "labels",
+              "displayName": "labels",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "From",
+              "displayName": "From",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "To",
+              "displayName": "To",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "thread msges combined",
+              "displayName": "thread msges combined",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "character count",
+              "displayName": "character count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": " summarized",
+              "displayName": " summarized",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "useAppend": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1680,
+        -320
+      ],
+      "id": "fb28bbc2-6342-44ae-9096-f595b502a535",
+      "name": "Final Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6ZOE2gbAbh0xja4q",
+          "name": "chris@takeofftachnology.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "thread",
+        "operation": "get",
+        "threadId": "={{ $json.threadId }}",
+        "simple": false,
+        "options": {
+          "returnOnlyMessages": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        784,
+        -128
+      ],
+      "id": "eada7930-3e20-4b2f-ac0f-b3a3adfeb2a6",
+      "name": "Get a thread",
+      "webhookId": "156235dc-848c-4829-8805-b75d4fa51f46",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "H8vXzEjTaoz9A0uT",
+          "name": "chris@takeofftachnology.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract unique thread IDs from all input items\nconst threadIds = new Set();\n\nfor (const item of items) {\n  if (item.json.threadId) {\n    threadIds.add(item.json.threadId);\n  }\n}\n\n// Create new items array with unique thread IDs\nreturn Array.from(threadIds).map(threadId => ({\n  json: {\n    threadId: threadId\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        -128
+      ],
+      "id": "7daa6743-f580-475b-80f3-ff6cf279eb88",
+      "name": "Extract Thread IDs"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process thread data (Run in \"Run Once for All Items\" mode)\nconst processedItems = [];\nconst MAX_MESSAGES = 500; // Limit for large threads\n\n// Get all input items\nconst inputItems = $input.all();\n\n// Helper function to get header value\nconst getHeader = (headers, name) => {\n  if (!headers) return null;\n  const header = headers.find(h => h.name.toLowerCase() === name.toLowerCase());\n  return header ? header.value : null;\n};\n\n// Helper to extract headers from message payload\nconst extractHeaders = (payload) => {\n  if (payload.headers) return payload.headers;\n  if (payload.parts) {\n    for (const part of payload.parts) {\n      if (part.headers) return part.headers;\n      if (part.parts) {\n        for (const subPart of part.parts) {\n          if (subPart.headers) return subPart.headers;\n        }\n      }\n    }\n  }\n  return [];\n};\n\n// Helper to extract text content\nconst extractTextContent = (payload) => {\n  if (payload.mimeType === 'text/plain' && payload.body?.data) {\n    return Buffer.from(payload.body.data, 'base64').toString('utf-8');\n  }\n  if (payload.parts) {\n    for (const part of payload.parts) {\n      if (part.mimeType === 'text/plain' && part.body?.data) {\n        return Buffer.from(part.body.data, 'base64').toString('utf-8');\n      }\n    }\n  }\n  return '';\n};\n\nfor (const item of inputItems) {\n  const thread = item.json;\n  if (!thread || !thread.messages || thread.messages.length === 0) continue;\n  \n  // Handle large threads\n  const messages = thread.messages.length > MAX_MESSAGES \n    ? thread.messages.slice(0, MAX_MESSAGES) \n    : thread.messages;\n  \n  const firstMessage = messages[0];\n  const lastMessage = messages[messages.length - 1];\n  \n  // Initialize collections\n  const participantSet = new Set();\n  const labelSet = new Set();\n  let combinedText = \"\";\n  \n  for (const [index, msg] of messages.entries()) {\n    if (!msg.payload) continue;\n    \n    // Extract headers\n    const headers = extractHeaders(msg.payload);\n    \n    // Extract and add participants\n    const from = getHeader(headers, 'From');\n    const to = getHeader(headers, 'To');\n    const cc = getHeader(headers, 'Cc');\n    \n    if (from) participantSet.add(from.trim());\n    if (to) to.split(',').map(a => a.trim()).filter(a => a).forEach(a => participantSet.add(a));\n    if (cc) cc.split(',').map(a => a.trim()).filter(a => a).forEach(a => participantSet.add(a));\n    \n    // Extract and add labels\n    if (msg.labelIds) {\n      msg.labelIds.forEach(labelId => labelSet.add(labelId));\n    }\n    \n    // Extract and add text content\n    const messageText = extractTextContent(msg.payload) || msg.snippet || '';\n    combinedText += `--- Message ${index + 1} ---\\n${messageText}\\n\\n`;\n  }\n  \n  // Extract subject from first message\n  const firstHeaders = firstMessage.payload ? extractHeaders(firstMessage.payload) : [];\n  const subject = getHeader(firstHeaders, 'Subject') || '';\n  \n  processedItems.push({\n    json: {\n      threadId: thread.id,\n      subject: subject,\n      text: combinedText.trim(),\n      labels: Array.from(labelSet).join(', '),\n      participants: Array.from(participantSet).join('; '),\n      firstMessageDate: firstMessage.internalDate,\n      lastMessageDate: lastMessage.internalDate,\n      messageCount: messages.length\n    }\n  });\n}\n\nreturn processedItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        -128
+      ],
+      "id": "21afc1f4-8893-4208-91e4-76fd24fc3dc7",
+      "name": "Process Thread Data"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KxdfHvrI8kFfE02anp0En2Aev6q9b2IHNqeBlqTZteM",
+          "mode": "list",
+          "cachedResultName": "get all threads data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KxdfHvrI8kFfE02anp0En2Aev6q9b2IHNqeBlqTZteM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KxdfHvrI8kFfE02anp0En2Aev6q9b2IHNqeBlqTZteM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "text": "={{ $json.text }}",
+            "firstmsgdate": "={{ $json.firstMessageDate }}",
+            "lastmsgdate": "={{ $json.lastMessageDate }}",
+            "msgcount": "={{ $json.messageCount }}",
+            "threadId": "={{ $json.threadId }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "threadId",
+              "displayName": "threadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "firstmsgdate",
+              "displayName": "firstmsgdate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "lastmsgdate",
+              "displayName": "lastmsgdate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "msgcount",
+              "displayName": "msgcount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "useAppend": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1232,
+        -128
+      ],
+      "id": "e6ca3508-8785-41f9-8545-f2714412f4ef",
+      "name": "Add to get all threads data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6ZOE2gbAbh0xja4q",
+          "name": "chris@takeofftachnology.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Summarize this email thread in 500 words or less:\n{{ $json.text }}.\nDisplay this in the output as it is {{ $json.threadId }}",
+        "options": {
+          "systemMessage": "You are an expert email summarizer. Create a concise summary of this email thread focusing on key decisions, action items, and main topics.\noutput this in json format with two key values pairs \"summarized body\" and \"threadid\" for every input."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        384,
+        -544
+      ],
+      "id": "d9f86c30-5103-44b2-99fb-240df8540f59",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {
+          "maxTokens": 1000,
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        -320
+      ],
+      "id": "fabc5bdb-d02d-4271-9dce-182721a33b30",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "LhNkYkBntExx9Xsn",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Set mode to: \"Run Once for All Items\"\nconst MAX_TEXT_LENGTH = 45000;\nconst inputItems = $input.all();\nconst results = [];\n\nfor (let i = 0; i < inputItems.length; i++) {\n    const item = inputItems[i];\n    const jsonData = item.json;\n    const text = jsonData.text || '';\n    const otherFields = { ...jsonData };\n    delete otherFields.text;\n\n    if (text.length > MAX_TEXT_LENGTH) {\n        results.push({\n            json: {\n                ...otherFields,\n                originalTextLength: text.length,\n                text: \"TO_BE_SUMMARIZED\",\n                needsSummarization: true,\n                fullText: text\n            },\n            // Maintain item linking\n            pairedItem: {\n                item: i\n            }\n        });\n    } else {\n        results.push({\n            json: {\n                ...jsonData,\n                needsSummarization: false,\n                originalTextLength: text.length\n            },\n            // Maintain item linking\n            pairedItem: {\n                item: i\n            }\n        });\n    }\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        -416
+      ],
+      "id": "572b508d-9edf-43b1-8405-8c247aa9f33b",
+      "name": "Extracting text length"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6e41d8ad-f5ab-429e-96e9-7e05e3d3e274",
+              "leftValue": "={{ $json.originalTextLength }}",
+              "rightValue": 50000,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        160,
+        -416
+      ],
+      "id": "cde9537f-e05a-4c93-bf82-ea1edc9521c8",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Set mode: \"Run Once for Each Item\"\nconst inputItem = $input.item;\n\n// Validate input structure\nif (!inputItem || !inputItem.json || !inputItem.json.output) {\n    return {\n        json: { \n            error: \"Invalid input structure\",\n            details: \"Missing required 'output' property\" \n        }\n    };\n}\n\ntry {\n    // Parse the JSON string from the output property\n    const agentOutput = JSON.parse(inputItem.json.output);\n    \n    // Return the extracted fields\n    return {\n        json: {\n            \"summarized body\": agentOutput[\"summarized body\"],\n            \"thread id\": agentOutput.threadid\n        }\n    };\n} catch (error) {\n    // Handle errors safely\n    const errorMessage = error instanceof Error ? error.message : String(error);\n    \n    return {\n        json: { \n            error: \"Failed to parse agent output\",\n            details: errorMessage,\n            originalOutput: inputItem.json.output\n        }\n    };\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        784,
+        -544
+      ],
+      "id": "965a5b81-5758-4949-ae97-b7506a1bd3b5",
+      "name": "json converted"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "thread id",
+              "field2": "threadId"
+            }
+          ]
+        },
+        "joinMode": "keepEverything",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1008,
+        -416
+      ],
+      "id": "ce8e02b6-d7e8-4b43-b75f-1ab385c57515",
+      "name": "Merging both ends"
+    },
+    {
+      "parameters": {
+        "content": "## EMAIL SCRAPPING PROJECT\n\n",
+        "height": 784,
+        "width": 2544,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -608,
+        -720
+      ],
+      "typeVersion": 1,
+      "id": "8f6e8be4-6500-4a11-88f7-346c78210647",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {
+    "AI Agent": [
+      {
+        "json": {
+          "output": "{\n  \"summarized body\": \"The email thread discusses the planning and coordination of an upcoming project launch. Key decisions include finalizing the project timeline by next week and assigning specific roles to team members. Action items involve completing the marketing materials, setting up client meetings, and ensuring all technical requirements are met before the launch date. The main topics covered are project deadlines, resource allocation, and communication strategies to ensure a smooth rollout.\",\n  \"threadid\": \"19840c635f451a6e\"\n}"
+        }
+      }
+    ],
+    "json converted": [
+      {
+        "json": {
+          "summarized body": "The email thread discusses the planning and coordination of an upcoming project launch. Key decisions include finalizing the project timeline by next week and assigning specific roles to team members. Action items involve completing the marketing materials, setting up client meetings, and ensuring all technical requirements are met before the launch date. The main topics covered are project deadlines, resource allocation, and communication strategies to ensure a smooth rollout.",
+          "thread id": "19840c635f451a6e"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Extract Thread IDs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get many messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many messages": {
+      "main": [
+        [
+          {
+            "node": "Extract Thread IDs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Extracting text length",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add to get all email data": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Final Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a thread": {
+      "main": [
+        [
+          {
+            "node": "Process Thread Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Thread IDs": {
+      "main": [
+        [
+          {
+            "node": "Get a thread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Thread Data": {
+      "main": [
+        [
+          {
+            "node": "Add to get all threads data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add to get all threads data": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "json converted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extracting text length": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merging both ends",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "json converted": {
+      "main": [
+        [
+          {
+            "node": "Merging both ends",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merging both ends": {
+      "main": [
+        [
+          {
+            "node": "Add to get all email data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "af537cf7-e5f7-48aa-b57d-c74b3304105b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3279fc8de409362174e831ee0d02778ff4ae3638065ad1ae6bf33c3b752b9e17"
+  },
+  "id": "f4wLxI6RVYT4KfkE",
+  "tags": []
+}

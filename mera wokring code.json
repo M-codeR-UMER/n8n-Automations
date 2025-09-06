@@ -1,0 +1,711 @@
+{
+  "name": "Email Automation 3",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        144
+      ],
+      "id": "ba78dbd9-02c7-4e9f-bd38-fde90ad4daad",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 10,
+        "simple": false,
+        "filters": {
+          "labelIds": [
+            "INBOX"
+          ],
+          "readStatus": "both"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -288,
+        144
+      ],
+      "id": "6f02de22-0866-4b10-be8e-1531d7d4226a",
+      "name": "Get many messages",
+      "webhookId": "62bac84e-f1fe-4db4-ba4f-9db7d9567082",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "H8vXzEjTaoz9A0uT",
+          "name": "chris@takeofftachnology.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1hpPDSyqntEFos2myMmdWyue65rl0LCGobYoDO4YtCTA",
+          "mode": "list",
+          "cachedResultName": "get all email data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hpPDSyqntEFos2myMmdWyue65rl0LCGobYoDO4YtCTA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hpPDSyqntEFos2myMmdWyue65rl0LCGobYoDO4YtCTA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $json.id }}",
+            "threadId": "={{ $json.threadId }}",
+            "labels": "={{ $json.labelIds }}",
+            "To": "={{ $json.to.value[0].address }}",
+            "subject": "={{ $json.subject }}",
+            "msg body": "={{ $json.text }}",
+            "from": "={{ $json.from.value[0].address }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "threadId",
+              "displayName": "threadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "from",
+              "displayName": "from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "labels",
+              "displayName": "labels",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "msg body",
+              "displayName": "msg body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "To",
+              "displayName": "To",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "useAppend": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        608,
+        48
+      ],
+      "id": "d995cbe8-119f-423a-9301-f32d1561b2dc",
+      "name": "Add to get all email data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6ZOE2gbAbh0xja4q",
+          "name": "chris@takeofftachnology.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "threadId",
+              "field2": "threadId"
+            }
+          ]
+        },
+        "joinMode": "keepEverything",
+        "options": {
+          "multipleMatches": "all"
+        }
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1056,
+        144
+      ],
+      "id": "e297866a-0c4a-4441-8ae8-75912f391759",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1hpPDSyqntEFos2myMmdWyue65rl0LCGobYoDO4YtCTA",
+          "mode": "list",
+          "cachedResultName": "get all email data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hpPDSyqntEFos2myMmdWyue65rl0LCGobYoDO4YtCTA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1hpPDSyqntEFos2myMmdWyue65rl0LCGobYoDO4YtCTA/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        832,
+        48
+      ],
+      "id": "3890ad30-6063-4317-922c-b5f3e57b0c0e",
+      "name": "Reading row(s) from all email data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6ZOE2gbAbh0xja4q",
+          "name": "chris@takeofftachnology.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1KxdfHvrI8kFfE02anp0En2Aev6q9b2IHNqeBlqTZteM",
+          "mode": "list",
+          "cachedResultName": "get all threads data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KxdfHvrI8kFfE02anp0En2Aev6q9b2IHNqeBlqTZteM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KxdfHvrI8kFfE02anp0En2Aev6q9b2IHNqeBlqTZteM/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        832,
+        240
+      ],
+      "id": "a8f180b4-12d7-4fc0-9520-97cbe3b8363d",
+      "name": "reading rows from all threads data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6ZOE2gbAbh0xja4q",
+          "name": "chris@takeofftachnology.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1eDrnXe4GsH5y3JR9ehlkeQOQSW3k-j5Js--hiJ9RbRE",
+          "mode": "list",
+          "cachedResultName": "US Email Data All Mail",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eDrnXe4GsH5y3JR9ehlkeQOQSW3k-j5Js--hiJ9RbRE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eDrnXe4GsH5y3JR9ehlkeQOQSW3k-j5Js--hiJ9RbRE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "date": "={{ $json.firstmsgdate }} // {{ $json.lastmsgdate }}",
+            "id": "={{ $json.id }}",
+            "threadId": "={{ $json.threadId }}",
+            "labels": "={{ $json.labels }}",
+            "Subject": "={{ $json.subject }}",
+            "From": "={{ $json.from }}",
+            "To": "={{ $json.To }}",
+            "msg body": "={{ $json['msg body'] }}",
+            "thread msges combined": "={{ $json.text }}"
+          },
+          "matchingColumns": [
+            "from"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "threadId",
+              "displayName": "threadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "msg body",
+              "displayName": "msg body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "labels",
+              "displayName": "labels",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "From",
+              "displayName": "From",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "To",
+              "displayName": "To",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "thread msges combined",
+              "displayName": "thread msges combined",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "useAppend": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1280,
+        144
+      ],
+      "id": "a5aba41f-7fad-415f-9dbf-1e2bf5272358",
+      "name": "Final Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6ZOE2gbAbh0xja4q",
+          "name": "chris@takeofftachnology.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "thread",
+        "operation": "get",
+        "threadId": "={{ $json.threadId }}",
+        "simple": false,
+        "options": {
+          "returnOnlyMessages": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        160,
+        240
+      ],
+      "id": "6424425b-e240-426a-89c4-5b5c49cc0dc3",
+      "name": "Get a thread",
+      "webhookId": "0d2a6f0d-42e5-479b-8dc4-218f6b7807b3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "H8vXzEjTaoz9A0uT",
+          "name": "chris@takeofftachnology.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract unique thread IDs from all input items\nconst threadIds = new Set();\n\nfor (const item of items) {\n  if (item.json.threadId) {\n    threadIds.add(item.json.threadId);\n  }\n}\n\n// Create new items array with unique thread IDs\nreturn Array.from(threadIds).map(threadId => ({\n  json: {\n    threadId: threadId\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        240
+      ],
+      "id": "d695ccb4-fef6-4a0e-88b6-5c4a6f3b808f",
+      "name": "Extract Thread IDs"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process thread data (Run in \"Run Once for All Items\" mode)\nconst processedItems = [];\nconst MAX_MESSAGES = 500; // Limit for large threads\n\n// Get all input items\nconst inputItems = $input.all();\n\n// Helper function to get header value\nconst getHeader = (headers, name) => {\n  if (!headers) return null;\n  const header = headers.find(h => h.name.toLowerCase() === name.toLowerCase());\n  return header ? header.value : null;\n};\n\n// Helper to extract headers from message payload\nconst extractHeaders = (payload) => {\n  if (payload.headers) return payload.headers;\n  if (payload.parts) {\n    for (const part of payload.parts) {\n      if (part.headers) return part.headers;\n      if (part.parts) {\n        for (const subPart of part.parts) {\n          if (subPart.headers) return subPart.headers;\n        }\n      }\n    }\n  }\n  return [];\n};\n\n// Helper to extract text content\nconst extractTextContent = (payload) => {\n  if (payload.mimeType === 'text/plain' && payload.body?.data) {\n    return Buffer.from(payload.body.data, 'base64').toString('utf-8');\n  }\n  if (payload.parts) {\n    for (const part of payload.parts) {\n      if (part.mimeType === 'text/plain' && part.body?.data) {\n        return Buffer.from(part.body.data, 'base64').toString('utf-8');\n      }\n    }\n  }\n  return '';\n};\n\nfor (const item of inputItems) {\n  const thread = item.json;\n  if (!thread || !thread.messages || thread.messages.length === 0) continue;\n  \n  // Handle large threads\n  const messages = thread.messages.length > MAX_MESSAGES \n    ? thread.messages.slice(0, MAX_MESSAGES) \n    : thread.messages;\n  \n  const firstMessage = messages[0];\n  const lastMessage = messages[messages.length - 1];\n  \n  // Initialize collections\n  const participantSet = new Set();\n  const labelSet = new Set();\n  let combinedText = \"\";\n  \n  for (const [index, msg] of messages.entries()) {\n    if (!msg.payload) continue;\n    \n    // Extract headers\n    const headers = extractHeaders(msg.payload);\n    \n    // Extract and add participants\n    const from = getHeader(headers, 'From');\n    const to = getHeader(headers, 'To');\n    const cc = getHeader(headers, 'Cc');\n    \n    if (from) participantSet.add(from.trim());\n    if (to) to.split(',').map(a => a.trim()).filter(a => a).forEach(a => participantSet.add(a));\n    if (cc) cc.split(',').map(a => a.trim()).filter(a => a).forEach(a => participantSet.add(a));\n    \n    // Extract and add labels\n    if (msg.labelIds) {\n      msg.labelIds.forEach(labelId => labelSet.add(labelId));\n    }\n    \n    // Extract and add text content\n    const messageText = extractTextContent(msg.payload) || msg.snippet || '';\n    combinedText += `--- Message ${index + 1} ---\\n${messageText}\\n\\n`;\n  }\n  \n  // Extract subject from first message\n  const firstHeaders = firstMessage.payload ? extractHeaders(firstMessage.payload) : [];\n  const subject = getHeader(firstHeaders, 'Subject') || '';\n  \n  processedItems.push({\n    json: {\n      threadId: thread.id,\n      subject: subject,\n      text: combinedText.trim(),\n      labels: Array.from(labelSet).join(', '),\n      participants: Array.from(participantSet).join('; '),\n      firstMessageDate: firstMessage.internalDate,\n      lastMessageDate: lastMessage.internalDate,\n      messageCount: messages.length\n    }\n  });\n}\n\nreturn processedItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        384,
+        240
+      ],
+      "id": "47494038-595d-412f-b315-e232030f11e8",
+      "name": "Process Thread Data"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KxdfHvrI8kFfE02anp0En2Aev6q9b2IHNqeBlqTZteM",
+          "mode": "list",
+          "cachedResultName": "get all threads data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KxdfHvrI8kFfE02anp0En2Aev6q9b2IHNqeBlqTZteM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KxdfHvrI8kFfE02anp0En2Aev6q9b2IHNqeBlqTZteM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "text": "={{ $json.text }}",
+            "firstmsgdate": "={{ $json.firstMessageDate }}",
+            "lastmsgdate": "={{ $json.lastMessageDate }}",
+            "msgcount": "={{ $json.messageCount }}",
+            "threadId": "={{ $json.threadId }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "threadId",
+              "displayName": "threadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "firstmsgdate",
+              "displayName": "firstmsgdate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "lastmsgdate",
+              "displayName": "lastmsgdate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "msgcount",
+              "displayName": "msgcount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "useAppend": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        608,
+        240
+      ],
+      "id": "32b318a4-0aee-40aa-9ab4-7ae14212f692",
+      "name": "Add to get all threads data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6ZOE2gbAbh0xja4q",
+          "name": "chris@takeofftachnology.com"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Extract Thread IDs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get many messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many messages": {
+      "main": [
+        [
+          {
+            "node": "Add to get all email data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Extract Thread IDs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add to get all email data": {
+      "main": [
+        [
+          {
+            "node": "Reading row(s) from all email data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Final Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reading row(s) from all email data": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "reading rows from all threads data": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get a thread": {
+      "main": [
+        [
+          {
+            "node": "Process Thread Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Thread IDs": {
+      "main": [
+        [
+          {
+            "node": "Get a thread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Thread Data": {
+      "main": [
+        [
+          {
+            "node": "Add to get all threads data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add to get all threads data": {
+      "main": [
+        [
+          {
+            "node": "reading rows from all threads data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8961486c-4ff3-4e8f-91e0-0af981dbb438",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3279fc8de409362174e831ee0d02778ff4ae3638065ad1ae6bf33c3b752b9e17"
+  },
+  "id": "4Qw4B2lXcl2uxF9Q",
+  "tags": []
+}
